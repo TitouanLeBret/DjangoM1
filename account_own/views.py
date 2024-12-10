@@ -133,11 +133,7 @@ def activate_account(request, uidb64, token): #uidb64 = représentation en base 
 
 def activateEmail(request,user,email):
     mail_subject = "Activer votre compte."
-    #Potentiellemenet a supprimer (4 lignes en dessous)
-    if get_current_site(request).domain=="localhost" :
-        domain = "127.0.0.1"
-    else :
-        domain = get_current_site(request).domain
+    domain = get_current_site(request).domain
     message = render_to_string('email/activation_mail.html', {
         'user': user,
         'domain': domain,

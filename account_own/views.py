@@ -358,11 +358,7 @@ def change_email(request):
                 user.temp_email = new_email #on stocke la nouvelle adresse potentielle
                 user.save()
                 mail_subject = "Changement d'email."
-                # Potentiellemenet a supprimer (4 lignes en dessous)
-                if get_current_site(request).domain == "localhost":
-                    domain = "127.0.0.1:8000"
-                else:
-                    domain = get_current_site(request).domain
+                domain = get_current_site(request).domain
                 message = render_to_string('email/email_change.html', {
                     'user': user,
                     'domain': domain,
@@ -480,12 +476,7 @@ def password_reset_request(request):
             associated_user = User.objects.filter(Q(email = user_email)).first()
             if associated_user:
                 mail_subject = "Réinitialiser votre mot de passe."
-                # Potentiellemenet a supprimer (4 lignes en dessous)
-                if get_current_site(request).domain == "localhost":
-                    domain = "127.0.0.1:8000"
-                else:
-                    domain = get_current_site(request).domain
-                print(domain)
+                domain = get_current_site(request).domain
                 message = render_to_string('email/reinitialise_mot_de_passe.html', {
                     'user': associated_user,
                     'domain': domain,

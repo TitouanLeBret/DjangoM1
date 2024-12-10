@@ -1,0 +1,45 @@
+{% extends 'squelette.html' %}
+{% load socialaccount %}
+
+{% block title %}Connexion{% endblock %}
+{% block content %}
+
+
+
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8">
+
+
+  <form method="POST" class="bg-white rounded-lg shadow-lg w-full max-w-md mb-8">
+    {% csrf_token %}
+    <div class="items-center justify-between">
+      {{ form}}
+    </div>
+    <div class="items-center justify-between">
+        <button  type="submit" class="w-full bg-neutral-600 hover:bg-neutral-800 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+          Se connecter
+        </button>
+        <a class="inline-block align-baseline font-bold text-sm text-neutral-600 hover:text-neutral-800" href="{%url 'accounts:signup'%}">
+          Créer un compte
+        </a><br>
+        <a class="inline-block align-baseline font-bold text-sm text-neutral-600 hover:text-neutral-800" href="{%url 'accounts:validation_link_sender'%}">
+          Renvoyer un mail de vérification
+        </a><br>
+        <a class="inline-block align-baseline font-bold text-sm text-neutral-600 hover:text-neutral-800" href="{%url 'accounts:password_reset'%}">
+          Mot de passe oublié ?
+        </a>
+    </div>
+
+    <div class="flex flex-col items-center space-y-4 max-w-sm mx-auto mt-8">
+      <!-- Bouton Google -->
+      <a href="{% provider_login_url 'google' %}"
+         class="flex items-center justify-center w-full py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-300">
+        <img src="/static/images/google_logo.png" alt="Google Logo" class="w-5 h-5 mr-3">
+        Connexion avec Google
+      </a>
+    </div>
+  </form>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,6 @@
+{% autoescape off %}
+Bonjour,
+Suite a votre demande de réinitialisation de votre mot de passe sur notre site "Projet Master 1 Cybersécurité",
+voici votre lien : http://{{ domain }}{% url 'accounts:password_reset_confirm' uidb64=uid token=token %}
+
+{% endautoescape %}

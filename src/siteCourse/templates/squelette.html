@@ -1,0 +1,53 @@
+<!--  Squelette de base (utilisé par TOUTES les pages)  -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr" class="min-h-screen">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mon Site de Course{% endblock %}</title>
+
+
+    <link rel="stylesheet" href="{% static 'css/siteCourse/style_form.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    {% block head_supplement_content %}{% endblock %}
+</head>
+<body class="min-h-screen">
+    <header class="bg-neutral-600 text-white py-4">
+    <nav class="container mx-auto flex justify-between items-center px-4">
+        <a href="{% url 'accueil' %}" class="text-2xl font-bold">Course</a>
+        <div class="space-x-6 flex">
+            {% if user.is_staff %}
+                <a href='/admin_gestion/inscriptions/inscriptioncourse/' class="hover:text-gray-200">Gestion inscriptions</a>
+                <a href='/admin_gestion' class="hover:text-gray-200">Admin </a>
+            {% else %}
+                <a href="{% url 'inscriptions:home' %}" class="hover:text-gray-200">Inscription</a>
+                <a href="{% url 'parcours' %}" class="hover:text-gray-200">Parcours</a>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+            <div class="flex space-x-6">
+                <a href="{% url 'accounts:home' %}" class="hover:text-gray-200">Mon compte {% if user.prenom %} : {{user.prenom}} {% endif %}  </a>
+                <a href="{% url 'accounts:logout' %}" class="hover:text-gray-200">Déconnexion</a>
+            </div>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="hover:text-gray-200">Connexion</a>
+            {% endif %}
+        </div>
+    </nav>
+    </header>
+    <main>
+        <div class="row">
+            <div class="col-lg-12 col-md-12-p-0 col-sm-12">
+                {% include 'includes/messaging.html' %}
+            </div>
+        </div>
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto text-center text-sm">
+            © 2024 Projet M1 Cybersécurité - Tous droits réservés.
+        </div>
+    </footer>
+</body>
+</html>

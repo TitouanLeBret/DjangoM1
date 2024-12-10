@@ -1,0 +1,53 @@
+<!--  Page d'accueil (pas implémenté), soit mettre dans une appli soit juste implémenter ici  -->
+{% extends 'squelette.html' %}
+{% load static %}
+
+{% block title %}Accueil{% endblock %}
+{% block content %}
+
+<!-- Section avec une image en pleine largeur -->
+<section class="relative">
+    <img src="{% static 'images/image_course_1.jpg' %}" alt="Course à pied"
+         class="w-full h-80 md:h-[500px] object-cover">
+    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+        <div class="text-center text-white px-6">
+            <h2 class="text-3xl md:text-4xl font-bold">Prêt à relever le défi ?</h2>
+            <a href="/inscriptions/"
+               class="mt-6 inline-block bg-neutral-600 hover:bg-neutral-800 text-white py-3 px-8 rounded-full text-lg font-semibold transition duration-300">
+                Inscris-toi maintenant
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Présentation de l'événement -->
+<section class="py-12 bg-gray-50">
+    <div class="container mx-auto text-center">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6">À propos de l'événement</h2>
+        <p class="text-gray-600 text-lg leading-relaxed max-w-3xl mx-auto">
+            Découvrez votre ville autrement, que vous soyez débutant
+            ou coureur confirmé, cet événement est conçu pour vous offrir une expérience inoubliable.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+            <div class="p-6 bg-white shadow-md rounded-lg">
+                <h3 class="text-xl font-semibold mb-2">Un parcours exceptionnel</h3>
+                <p class="text-gray-500">De 5 à 42km de course à travers la ville de Caen et son agglomération.</p>
+            </div>
+            <div class="p-6 bg-white shadow-md rounded-lg">
+                <h3 class="text-xl font-semibold mb-2">Un événement pour tous</h3>
+                <p class="text-gray-500">Débutants, familles ou pros, chacun trouvera son bonheur.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bouton d'inscription -->
+<section class="py-12 bg-gradient-to-r from-neutral-600 to-neutral-800 text-center text-white">
+    <h2 class="text-2xl md:text-4xl font-bold mb-6">Ne manquez pas votre chance !</h2>
+    <a href="/accounts/"
+       class="bg-white text-neutral-600 hover:text-neutral-800 py-3 px-8 rounded-full text-lg font-semibold transition duration-300">
+        Créer votre compte
+    </a>
+</section>
+
+{% endblock %}

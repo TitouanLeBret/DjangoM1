@@ -1,0 +1,108 @@
+{% extends 'squelette.html' %}
+{% load static %}
+
+{% block title %}Inscription{% endblock %}
+{% block content %}
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-8">
+    <form method="post" action="{% url 'inscriptions:home' %}" class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md mb-8" enctype="multipart/form-data">
+
+        {% csrf_token %}
+        <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Inscription à la Course</h1>
+
+        {{form}}
+
+        <button type="submit"
+                class="w-full bg-neutral-600 hover:bg-neutral-800 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+            S'inscrire
+        </button>
+    </form>
+
+    <!-- Affichage des inscriptions -->
+    <!-- Si l'user est connecté, on affiche ces inscriptions
+                    Si aucune inscirptions on affiche "aucune inscription"
+        -->
+    {% if user.is_authenticated %}
+        <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Vos Inscriptions</h2>
+
+        <!-- Liste des inscriptions de l'utilisateur -->
+        <div class="w-full max-w-md">
+            {% for inscription in inscriptions %}
+                {% if inscription.user_id == user.id %} <!-- ATTENTION MODIFIER NOM ET EMAIL PAR NOM OU EMAIL -->
+                    <div class="bg-white rounded-lg shadow-lg p-4 mb-4">
+                        <p class="text-gray-600"><strong>Nom :</strong> {{ inscription.nom }} </p>
+                        <p class="text-gray-600"><strong>Prénom :</strong> {{ inscription.prenom }}</p>
+                        <p class="text-gray-600"><strong>Âge :</strong> {{ inscription.age }} ans</p>
+                        <p class="text-gray-600"><strong>Course :</strong> {{ inscription.course }}</p>
+                        <p class="text-gray-600"><strong>Statut :</strong> {% if inscription.inscription_complete %} Validé {% else %} A valider par un administrateur {% endif %}</p>
+                        <p class="text-gray-600"><strong>Date de l'inscription :</strong> {{ inscription.inscription_date }}</p>
+                        <a href="/private-media/{{ inscription.certificat_med }}" class="text-blue-500 hover:underline">Voir le certificat</a>
+
+                        {% if inscription.inscription_complete == False %}
+                            <!-- Bouton de suppression de l'inscription si elle n'est pas encore validé par un admin -->
+                            <button class="mt-2 flex items-center text-red-500 hover:text-red-700 focus:outline-none"
+                                    onclick="confirmer_suppression('{{ inscription.id }}')">
+                                <img src="{% static 'images/logo_croix_grise.png' %}" alt="Supprimer" class="w-6 h-6 mr-2">
+                                <span>Supprimer</span>
+                            </button>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+            <!-- Si aucune inscriptions  -->
+            {% empty %}
+                <p class="text-gray-600 text-center">Aucune inscription trouvée.</p>
+            {% endfor %}
+
+        </div>
+    {% endif %}
+</div>
+
+
+<!-- Gestion du boutton de suppression en JS -->
+<!--
+
+On demande confirmation dans pop up
+Si validé :
+    on créer un formulaire avec les infos (id de l'inscription, jeton crsf ...)
+    on submit ce formulaire vers l'url de suppression de compte
+    qui fera appel a la fonction supprimer
+Si l'utilisateur ne valide pas on ne fait rien
+
+-->
+<script>
+    function confirmer_suppression(inscriptionId) {
+        // Afficher une pop de confirmation
+        const confirmation = confirm(
+            "Êtes-vous sûr de vouloir supprimer cette inscription ? (Aucun remboursement ne sera effectué)"
+        );
+        if (confirmation) {
+            //Effectuer la suppression dans la BDD, et renvoyer vers une page inscription supprimer (ou un message)
+            // Créer un formulaire de suppression
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'supprimer/';  // L'URL de votre vue Django pour supprimer l'inscription
+
+            // Ajouter le CSRF token pour sécuriser le formulaire
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrfmiddlewaretoken';
+            csrfInput.value = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            // Ajouter l'ID de l'inscription
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'inscription_id';
+            idInput.value = inscriptionId;
+
+            // Ajouter les champs au formulaire
+            form.appendChild(csrfInput);
+            form.appendChild(idInput);
+
+            // Ajouter le formulaire à la page et soumettre
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
+
+{% endblock %}

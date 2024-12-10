@@ -1,0 +1,8 @@
+{% autoescape off %}
+Bonjour,
+Suite a votre inscription sur notre site "Projet Master 1 Cybersécurité", vous devez confirmer votre email.
+
+Veuillez cliquer sur le lien suivant :
+http://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}
+
+{% endautoescape %}

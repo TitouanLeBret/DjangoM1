@@ -1,0 +1,6 @@
+{% autoescape off %}
+Bonjour,
+Suite a votre demande de changement d'email sur notre site "Projet Master 1 Cybersécurité",
+voici votre lien pour valider cette nouvelle addresse email : http://{{ domain }}{% url 'accounts:email_change_confirm' uidb64=uid token=token %}
+
+{% endautoescape %}

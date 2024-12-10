@@ -1,0 +1,16 @@
+<!--  Page d'accueil (pas implémenté), soit mettre dans une appli soit juste implémenter ici  -->
+{% extends 'squelette.html' %}
+{% load static %}
+
+{% block title %}403 Forbidden{% endblock %}
+{% block content %}
+
+<div class="min-h-screen grid items-center justify-center bg-gray-100 py-8 ">
+    <div>
+        <h1>403 Forbidden</h1>
+        <p>Vous n'êtes pas autorisé à accéder à cette page.</p>
+        <p><a href="/">Retour à la page d'accueil</a></p>
+    </div>
+</div>
+
+{% endblock %}

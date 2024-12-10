@@ -1,0 +1,76 @@
+<!--  Page de parcours (pas encore implémenté, ira surement dans une appli parcours)  -->
+{% extends 'squelette.html' %}
+{% load static %}
+
+
+{% block title %}Parcours{% endblock %}
+{% block content %}
+
+<div class="min-h-screen grid items-center justify-center bg-gray-100 py-8 ">
+    <div class="flex">
+        <button onclick="showMap('map5km')" class=" w-full m-2 bg-gray-700 text-white font-bold py-2 px-4 rounded text-center transition duration-300 ease-in-out border-none cursor-pointer hover:bg-gray-800">5 km</button>
+        <button onclick="showMap('map10km')" class=" w-full m-2 bg-gray-700 text-white font-bold py-2 px-4 rounded text-center transition duration-300 ease-in-out border-none cursor-pointer hover:bg-gray-800">10 km</button>
+        <button onclick="showMap('mapSemiMarathon')" class=" w-full m-2 bg-gray-700 text-white font-bold py-2 px-4 rounded text-center transition duration-300 ease-in-out border-none cursor-pointer hover:bg-gray-800">Semi-Marathon</button>
+        <button onclick="showMap('mapMarathon')" class=" w-full m-2 bg-gray-700 text-white font-bold py-2 px-4 rounded text-center transition duration-300 ease-in-out border-none cursor-pointer hover:bg-gray-800">Marathon</button>
+    </div>
+
+    <div id="maps" class = "flex" style="height: 80vh;">
+
+        <!-- Carte 5 km -->
+        <div id="map5km" class="map w-full" style="display: block;">
+             <div class="strava-embed-placeholder" data-embed-type="route"
+                  data-embed-id="3297153050195985798" data-units="metric"
+                  data-full-width="true" data-style="standard"
+                  data-terrain="3d" data-map-hash="12.5/49.2172/-0.37232/-16.9/38"
+                  data-from-embed="true"></div>
+            <script src="https://strava-embeds.com/embed.js"></script>
+        </div>
+
+        <!-- Carte 10 km -->
+        <div id="map10km" class="map w-full" style="display: none;">
+            <div class="strava-embed-placeholder"
+                 data-embed-type="route" data-embed-id="3297155119697631622"
+                 data-full-width="true" data-style="standard" data-terrain="3d"
+                 data-map-hash="11.39/49.2311/-0.375" data-from-embed="true"></div>
+            <script src="https://strava-embeds.com/embed.js"></script>
+        </div>
+
+        <!-- Carte Semi-Marathon -->
+        <div id="mapSemiMarathon" class="map w-full" style="display: none;">
+            <div class="strava-embed-placeholder"
+                 data-embed-type="route" data-embed-id="3297210305793119406"
+                 data-full-width="true" data-style="standard" data-terrain="3d"
+                 data-map-hash="10.37/49.2516/-0.3891" data-from-embed="true"></div>
+            <script src="https://strava-embeds.com/embed.js"></script>
+        </div>
+
+        <!-- Carte Marathon -->
+        <div id="mapMarathon" class="map w-full" style="display: none;">
+            <div class="strava-embed-placeholder"
+                 data-embed-type="route" data-embed-id="3297212027294924166"
+                 data-full-width="true" data-style="standard" data-terrain="3d"
+                 data-map-hash="9.67/49.2366/-0.3665" data-from-embed="true"></div>
+            <script src="https://strava-embeds.com/embed.js"></script>
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+<script>
+
+    function showMap(mapId) {
+        // Masquer toutes les cartes
+        const maps = document.querySelectorAll('.map');
+        maps.forEach(map => {
+            map.style.display = 'none';
+        });
+
+        // Afficher la carte sélectionnée
+        document.getElementById(mapId).style.display = 'block';
+    }
+</script>
+{% endblock %}

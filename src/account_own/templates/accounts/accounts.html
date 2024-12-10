@@ -1,0 +1,59 @@
+<!-- PAGE POUR AFFICHAGE D'UN COMPTE -->
+
+{% extends 'squelette.html' %}
+{% load static %}
+{% block title %}Compte{% endblock %}
+{% block content %}
+
+<div class="min-h-screen grid items-center justify-center bg-gray-100 py-8">
+    {% if user.is_authenticated %}
+        <form method="POST" action="" enctype="multipart/form-data">
+            <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Votre compte :</h1>
+            {% csrf_token %}
+            {{form}}
+            <button type="submit" class="w-full bg-neutral-600 hover:bg-neutral-800 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+                Enregistrer les modifications
+            </button>
+
+
+            {% if user.is_social_account %}
+            <!-- Lien pour suppresion compte si création compte par applicaitons social (car gestion mdp et email faites par l'appli sociale en question)-->
+            <a href="{% url 'accounts:delete_social_account' %}" class="flex items-center w-full bg-neutral-600 hover:bg-neutral-800 text-red-600 font-bold py-2 px-4 rounded-md transition duration-300 mt-4">Supprimer mon compte</a>
+
+
+            {% else %}
+            <!-- Lien pour changer email et password et supprimer son compte si création du compte par mail-->
+            <a href="{% url 'accounts:delete_account' %}" class="flex items-center w-full bg-neutral-600 hover:bg-neutral-800 text-red-600 font-bold py-2 px-4 rounded-md transition duration-300 mt-4">Supprimer mon compte</a>
+            <a href="{% url 'accounts:change_email' %}" class="flex items-center w-full bg-neutral-600 hover:bg-neutral-800 text-red-600 font-bold py-2 px-4 rounded-md transition duration-300 mt-4">Changer mon email</a>
+            <a href="{% url 'accounts:change_password' %}" class="flex items-center w-full bg-neutral-600 hover:bg-neutral-800 text-red-600 font-bold py-2 px-4 rounded-md transition duration-300 mt-4">Changer mon mot de passe</a>
+            {% endif %}
+
+
+        </form>
+    {% else %}
+        <h1>Mon compte (non connecté)</h1>
+        <p>Vous devez être connecté pour accéder à cette page.</p>
+    {% endif %}
+</div>
+
+
+
+
+<!-- Gestion du boutton de suppression d'un compte en JS -->
+<!--
+
+On demande confirmation dans pop up
+
+
+-->
+<script>
+    function delete_account(userId) {
+        // Afficher une pop de confirmation
+        const confirmation = confirm(
+            "Êtes-vous sûr de vouloir supprimer Votre Compte ? "
+        );
+
+    }
+</script>
+
+{% endblock %}

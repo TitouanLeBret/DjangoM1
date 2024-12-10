@@ -112,8 +112,8 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'  # Pas de vérification de l'email lor
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': os.getenv('GOOGLE_CLIENT_ID'),  # ou utilisez env('GOOGLE_CLIENT_ID') si vous utilisez django-environ
-            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),  # idem pour le secret
+            'client_id': config("GOOGLE_CLIENT_ID", default=""),
+            'secret': config("GOOGLE_CLIENT_SECRET", default=""),
             'key': '',  # facultatif, laissé vide si non utilisé
         },
         'SCOPE': [

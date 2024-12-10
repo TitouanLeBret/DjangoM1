@@ -111,11 +111,6 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'  # Pas de vérification de l'email lor
 #Pour la liste des providers et leurs settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'APP': {
-            'client_id': config("GOOGLE_CLIENT_ID", default=""),
-            'secret': config("GOOGLE_CLIENT_SECRET", default=""),
-            'key': '',  # facultatif, laissé vide si non utilisé
-        },
         'SCOPE': [
             'profile',
             'email',

@@ -29,7 +29,7 @@ SECRET_KEY = config("SECRET_KEY", default="fallback-secret-key")
 DEBUG = False
 #urls pour Ngrok permet de mettre le site en https pour les tests avec paypal
 ALLOWED_HOSTS = ['127.0.0.1','61df-46-193-2-97.ngrok-free.app','*']
-CSRF_TRUSTED_ORIGINS = ['https://61df-46-193-2-97.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://61df-46-193-2-97.ngrok-free.app','https://djangom1.onrender.com']
 
 
 # Application definition

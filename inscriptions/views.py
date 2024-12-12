@@ -48,9 +48,9 @@ def inscriptions(request):
                     'no_shipping': '2',  # permet de choisir son adresse
                     'invoice': my_Invoice,
                     'currency_code': 'EUR',
-                    'notify_url': 'https://{}{}'.format(host, "/inscriptions/paypal-ipn"),
-                    'return_url': 'http://{}{}'.format(host, "/inscriptions/payement_success"),
-                    'cancel_return': 'http://{}{}'.format(host, "/inscriptions/payement_failed"),
+                    'notify_url': 'https://{}{}'.format(host, reverse('inscriptions:paypal-ipn')),
+                    'return_url': 'http://{}{}'.format(host, reverse('inscriptions:payement_success')),
+                    'cancel_return': 'http://{}{}'.format(host, reverse('inscriptions:payement_failed')),
                 }
                 # formulaire paypal
                 paypal_form = PayPalPaymentsForm(initial=paypal_dict)
@@ -58,6 +58,7 @@ def inscriptions(request):
                 """Partie inscription"""
                 insc = form.save(commit=False)
                 insc.user = request.user
+                insc.invoice = my_Invoice
                 insc.save()
                 messages.success(request, "Votre inscription a bien été prise en compte.")
                 return render(request, 'inscriptions/insc_complete.html',{'paypal_form': paypal_form, 'insc': insc, 'inscriptions': inscriptions})

@@ -72,16 +72,17 @@ def delete_certificat_file(sender, instance, **kwargs):
 @receiver(valid_ipn_received)
 def paypal_payement_received(sender, **kwargs):
     #permet de laisser le temps à paypal de renvoyer les informations IPN
-    time.sleep(2)
+    time.sleep(10)
     #recupérer les informations que paypal envoie
     paypal_obj = sender
     #recuperer le numero de  facturation
     my_Invoice = str(paypal_obj.invoice)
+    print(my_Invoice)
     #faire correspondre la facturation paypal à la facturation de l'inscription
     my_insc = InscriptionCourse.objects.get(invoice=my_Invoice)
-    #lorsque le signal ipn est renvoyer un modifier la variable paid sur True pour valider le payement
+    #lorsque le signal ipn est renvoyé on modifie la variable paid sur True pour valider le payement
     my_insc.paid = True
     my_insc.save()
-
-    #print(paypal_obj)
-    #print(f'amount Paid: {paypal_obj.mc_gross}')
+    print("test")
+    print(paypal_obj)
+    print(f'amount Paid: {paypal_obj.mc_gross}')

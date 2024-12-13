@@ -77,12 +77,9 @@ def paypal_payement_received(sender, **kwargs):
     paypal_obj = sender
     #recuperer le numero de  facturation
     my_Invoice = str(paypal_obj.invoice)
-    print(my_Invoice)
     #faire correspondre la facturation paypal à la facturation de l'inscription
     my_insc = InscriptionCourse.objects.get(invoice=my_Invoice)
     #lorsque le signal ipn est renvoyé on modifie la variable paid sur True pour valider le payement
     my_insc.paid = True
     my_insc.save()
-    print("test")
-    print(paypal_obj)
-    print(f'amount Paid: {paypal_obj.mc_gross}')
+    #print(f'amount Paid: {paypal_obj.mc_gross}')

@@ -26,7 +26,7 @@ load_dotenv()
 SECRET_KEY = config("SECRET_KEY", default="fallback-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 #urls pour Ngrok permet de mettre le site en https pour les tests avec paypal, à changer à chaque session
 ALLOWED_HOSTS = ['127.0.0.1','5b59-46-193-2-97.ngrok-free.app','djangom1.onrender.com']
 CSRF_TRUSTED_ORIGINS = ['https://5b59-46-193-2-97.ngrok-free.app','https://djangom1.onrender.com']
@@ -63,7 +63,10 @@ INSTALLED_APPS = [
     #paypal library
     'paypal.standard.ipn',
 
-    'private_storage'
+    'private_storage',
+
+    #logging
+    'django_admin_logs',
 ]
 
 # requis par django-allauth
@@ -182,9 +185,7 @@ DATABASES = {
 import dj_database_url
 
 DATABASES = {
-
     'default' : dj_database_url.parse(config("POSTGRES_URL", default=""))
-
 }
 
 
@@ -269,4 +270,8 @@ PRIVATE_STORAGE_FILE_OVERWRITE = False  # Pour ne pas écraser les fichiers exis
 # Configurez le stockage privé pour qu'il soit utilisé par le modèle
 DEFAULT_FILE_STORAGE = 'private_storage.storage.PrivateFileSystemStorage'
 PRIVATE_STORAGE_AUTH_FUNCTION = 'siteCourse.permissions.custom_access_function'
-"""ATTENTION, CHANGER LA PERMISSION POUR QUE CE SOIT UNIQUEMENT LE PROPRIO DU PDF ET LES ADMINS"""
+
+
+#Si mis en production mettre sur False, pour que les admins ne puissent pas supprimer les loggs
+DJANGO_ADMIN_LOGS_DELETABLE = True
+DJANGO_ADMIN_LOGS_ENABLED = True

@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include , re_path
 from private_storage.views import PrivateStorageDetailView
 
-from .views import accueil, parcours, login_page
+from .views import accueil, parcours
 from django.conf import settings
 from django.conf.urls.static import static
 from inscriptions.views import inscriptions
@@ -33,13 +33,13 @@ urlpatterns = [
 #expliquer ce choiix dans rapport :
     #si failles sur django admin, les gens ne peuvent pas trouver notre page automatiquement, donc compléxifie la chose
     path('admin_gestion/', admin.site.urls, name="admin_gestion"),
-    path('', accueil , name='accueil'),
+    path('', accueil),
     path('accueil/', accueil , name='accueil'),
     path('inscriptions/' , include('inscriptions.urls')),
     path('parcours/' , parcours ,  name='parcours'),
 
 
-    path('accounts/', include('account_own.urls') ), #quand app on ne peut pas mettre name
+    path('accounts/', include('account_own.urls') ), 
     path('accounts/', include('allauth.urls')),
     path('accounts/home', account , name='home'),
     #re_path utilise des regexp

@@ -64,7 +64,7 @@ def delete_certificat_intance(sender, instance, **kwargs):
 def delete_certificat_file(sender, instance, **kwargs):
     # Chemin du fichier associé à l'instance
     if instance.certificat_med_name:
-        file_path = os.path.join(settings.PRIVATE_STORAGE_ROOT+'\certificats_medicaux', instance.certificat_med_name)
+        file_path = os.path.join(settings.PRIVATE_STORAGE_ROOT+'/certificats_medicaux', instance.certificat_med_name)
         if os.path.isfile(file_path):
             os.remove(file_path)
 

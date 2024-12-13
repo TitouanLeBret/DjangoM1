@@ -36,6 +36,17 @@
                         <p class="text-gray-600"><strong>Statut :</strong> {% if inscription.inscription_complete %} Validé {% else %} A valider par un administrateur {% endif %}</p>
                         <p class="text-gray-600"><strong>Date de l'inscription :</strong> {{ inscription.inscription_date }}</p>
                         <a href="/private-media/{{ inscription.certificat_med }}" class="text-blue-500 hover:underline">Voir le certificat</a>
+                        <!-- si le paiement est validé alors ecrire paiement valide sinon mettre un lien vers le paiement -->
+                        {% if inscription.paid == True %}
+                            <p class="text-gray-600"> paiement validé </p>
+                        {% endif %}
+                        {% if inscription.paid == False %}
+                            <form action="{% url 'inscriptions:payment_page' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="inscription_id" value="{{ inscription.id }}">
+                                <button type="submit">procéder au paiement</button>
+                            </form>
+                        {% endif %}
 
                         {% if inscription.inscription_complete == False %}
                             <!-- Bouton de suppression de l'inscription si elle n'est pas encore validé par un admin -->

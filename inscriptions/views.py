@@ -93,3 +93,51 @@ def payement_failed(request):
 
 def payement_success(request):
     return render(request, "inscriptions/payement_success.html",{})
+
+#page de paiement permet d'acceder au paiement après l'inscription
+def payment_page(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            inscription_id = request.POST.get('inscription_id')
+            try:
+                # Récupérer l'inscription via l'ID fourni dans le POST
+                inscription = InscriptionCourse.objects.get(id=inscription_id, user=request.user)
+                race = inscription.course
+                price = 5
+                if race == "5km": price = 10
+                if race == "10km": price = 20
+                if race == "semi-marathon": price = 40
+                if race == "marathon": price = 80
+                my_Invoice = inscription.invoice
+            except InscriptionCourse.DoesNotExist:
+                messages.error(request, "L'inscription demandée n'existe pas ou ne vous appartient pas.")
+                return redirect('/inscriptions')
+
+            host = request.get_host()
+
+            # dictionnaire de formulaire PayPal
+            paypal_dict = {
+                'business': settings.PAYPAL_RECEIVER_EMAIL,
+                'amount': price,
+                'item_name': f'Paiement pour la course {inscription.course}',
+                'no_shipping': '2',
+                'invoice': my_Invoice,
+                'currency_code': 'EUR',
+                'notify_url': 'https://{}{}'.format(host, reverse('inscriptions:paypal-ipn')),
+                'return_url': 'http://{}{}'.format(host, reverse('inscriptions:payement_success')),
+                'cancel_return': 'http://{}{}'.format(host, reverse('inscriptions:payement_failed')),
+            }
+
+            # formulaire PayPal
+            paypal_form = PayPalPaymentsForm(initial=paypal_dict)
+
+            return render(request, 'inscriptions/payment_page.html', {'paypal_form': paypal_form, 'inscription': inscription})
+        else:
+            messages.error(request, "Vous devez être connecté pour accéder à cette page.")
+            return redirect('/accounts')
+    else:
+        messages.error(request, "Accès invalide à la page.")
+        return redirect('/inscriptions')
+
+
+

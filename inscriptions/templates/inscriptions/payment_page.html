@@ -1,0 +1,14 @@
+{% extends 'squelette.html' %}
+{% load static %}
+
+{% block title %}payment_page{% endblock %}
+{% block content %}
+
+<!-- Page qui affiche un cadre pour procéder au paiement-->
+
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-8">
+        {{ paypal_form.render }}
+
+</div>
+
+{% endblock %}
